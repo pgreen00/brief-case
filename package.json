@@ -1,0 +1,25 @@
+{
+  "name": "brief-case",
+  "version": "0.0.0",
+  "author": "Peter Green",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pgreen00/brief-case.git"
+  },
+  "scripts": {
+    "dev": "concurrently \"cd app && npm run dev\" \"cd api && npm run dev\"",
+    "build": "concurrently \"cd app && npm run build\" \"cd api && npm run build\"",
+    "test": "concurrently \"cd app && npm run test\" \"cd api && npm run test\"",
+    "postinstall": "patch-package"
+  },
+  "license": "ISC",
+  "description": "",
+  "workspaces": [
+    "app",
+    "api"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "patch-package": "^8.0.0"
+  }
+}
