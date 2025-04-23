@@ -1,0 +1,3 @@
+:is(header,main,aside,footer):not(:has(> :not(router-outlet))) {
+  display: none;
+}
