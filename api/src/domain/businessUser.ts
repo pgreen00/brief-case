@@ -20,6 +20,6 @@ export type BusinessUser = {
   user_id: number;
   user_role: Role;
   rights: Right[];
-  id: number;
+  id: string;
   last_modified: Date;
 }

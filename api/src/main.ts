@@ -10,11 +10,15 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { getSecret, isproduction } from './infrastructure/configuration.js';
 import { createServer } from 'http';
+import KeyGrip from 'keygrip';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = new Koa();
+
+app.keys = new KeyGrip([(await getSecret('COOKIE_KEY'))!], 'sha256');
+
 const router = await mapRoutes(join(__dirname, `./routes`));
 
 if (!isproduction) {

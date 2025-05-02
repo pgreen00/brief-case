@@ -19,7 +19,7 @@ for each row execute function set_last_modified();
 CREATE TABLE public.users (
 	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	email bytea NOT NULL,
-	email_hint text NOT NULL,
+	search_token text NOT NULL,
 	phone bytea NULL,
 	alt_phone bytea NULL,
 	first_name text NULL,
@@ -35,6 +35,8 @@ CREATE TABLE public.users (
 	iv bytea NOT NULL,
 	registration_code text NULL,
 	registration_code_expiration timestamptz NULL,
+	email_verification_code text NULL,
+	email_verification_code_expiration timestamptz NULL,
 	last_login timestamptz NULL,
 	locked_out boolean DEFAULT false NOT NULL,
 	locked_out_until timestamptz NULL,
@@ -54,7 +56,7 @@ for each row execute function set_last_modified();
 -- public.business_users definition
 
 CREATE TABLE public.business_users (
-	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	business_id integer NOT NULL REFERENCES public.businesses(id) ON DELETE RESTRICT,
 	user_id integer NOT NULL REFERENCES public.users(id) ON DELETE RESTRICT,
 	user_role text NOT NULL,
@@ -98,7 +100,7 @@ for each row execute function set_last_modified();
 
 CREATE TABLE public.cases (
 	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-	business_user_id integer NOT NULL REFERENCES public.business_users(id) ON DELETE RESTRICT,
+	business_user_id uuid NOT NULL REFERENCES public.business_users(id) ON DELETE RESTRICT,
 	case_group_id integer NOT NULL REFERENCES public.case_groups(id) ON DELETE RESTRICT,
 	intake jsonb NOT NULL,
 	tags text[] NULL,
@@ -126,18 +128,6 @@ BEFORE INSERT OR UPDATE OR DELETE ON public.cases
 FOR EACH ROW EXECUTE PROCEDURE versioning(
   'sys_period', 'case_history', true
 );
-
-
--- public.auth_tokens definition
-
-CREATE TABLE public.auth_tokens (
-	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-	value bytea NOT NULL,
-	salt bytea NOT NULL,
-	user_id integer NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
-	expiration timestamptz NOT NULL
-);
-CREATE INDEX auth_tokens_user_id_idx ON public.auth_tokens USING btree (user_id);
 
 
 -- public.business_notes definition
@@ -270,7 +260,7 @@ for each row execute function set_last_modified();
 CREATE TABLE public.time_entries (
 	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	note text NULL,
-	business_user_id integer NOT NULL REFERENCES public.business_users(id) ON DELETE RESTRICT,
+	business_user_id uuid NOT NULL REFERENCES public.business_users(id) ON DELETE RESTRICT,
 	start_date timestamptz NOT NULL,
 	end_date timestamptz NOT NULL,
 	duration interval GENERATED ALWAYS AS (end_date - start_date) STORED NOT NULL,
@@ -294,7 +284,7 @@ for each row execute function set_last_modified();
 CREATE TABLE public.appointments (
 	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	scheduled_date timestamptz NOT NULL,
-	business_user_id integer NOT NULL REFERENCES public.business_users(id) ON DELETE RESTRICT,
+	business_user_id uuid NOT NULL REFERENCES public.business_users(id) ON DELETE RESTRICT,
 	confirmed boolean DEFAULT false NOT NULL,
 	description text NULL,
 	last_modified timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL

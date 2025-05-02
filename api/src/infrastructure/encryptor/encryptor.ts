@@ -22,7 +22,7 @@ export default class Encryptor {
       });
   }
 
-  public async encrypt(raw: string, iv: Buffer) {
+  public async encrypt(raw: string, iv?: Buffer) {
     const worker = await this.onReady();
     return await worker.encrypt(raw, iv);
   }
@@ -30,11 +30,6 @@ export default class Encryptor {
   public async decrypt(cipherText: Buffer, iv: Buffer) {
     const worker = await this.onReady();
     return await worker.decrypt(cipherText, iv);
-  }
-
-  public async generateKeyAndIv() {
-    const worker = await this.onReady();
-    return await worker.generateKeyAndIv();
   }
 
   public async [Symbol.asyncDispose]() {

@@ -4,11 +4,15 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "ts-patch install"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.637.0",
+    "@aws-sdk/client-kms": "^3.637.0",
+    "@date-fns/utc": "2.1.0",
     "bcrypt": "^5.1.1",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "glob": "^11.0.0",
     "koa": "^3.0.0",
@@ -17,11 +21,13 @@
     "koa-logger": "^3.2.1",
     "koa-ratelimit": "^5.1.0",
     "koa-router": "^13.0.1",
-    "pg": "^8.12.0",
+    "pg-promise": "^11.5.0",
     "rxjs": "^7.8.1",
-    "threads": "^1.7.0"
+    "threads": "^1.7.0",
+    "typia": "^9.1.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/koa": "^2.15.0",
     "@types/koa-bodyparser": "^5.0.2",
     "@types/koa-compress": "^4.0.6",
@@ -29,8 +35,8 @@
     "@types/koa-ratelimit": "^5.0.5",
     "@types/koa-router": "^7.4.8",
     "@types/node": "^22.3.0",
-    "@types/pg": "^8.11.6",
     "nodemon": "^3.1.4",
-    "typescript": "~5.8.0"
+    "ts-patch": "^3.3.0",
+    "typescript": "~5.8.3"
   }
 }

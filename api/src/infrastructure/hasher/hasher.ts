@@ -26,9 +26,9 @@ export default class Hasher {
     return await worker.hashPassword(input);
   }
 
-  public async compareHash(input: string, realPw: Buffer, salt: Buffer) {
+  public async comparePassword(input: string, realPw: string) {
     const worker = await this.onReady();
-    return await worker.compareHash(input, realPw, salt);
+    return await worker.comparePassword(input, realPw);
   }
 
   public async generateToken() {
@@ -36,9 +36,24 @@ export default class Hasher {
     return await worker.generateToken();
   }
 
-  public async generateResetCode(length?: number) {
+  public async compareToken(raw: string, hash: Buffer, salt: Buffer) {
     const worker = await this.onReady();
-    return await worker.generateResetCode(length);
+    return await worker.compareToken(raw, hash, salt);
+  }
+
+  public async generateNumericalCode(length?: number) {
+    const worker = await this.onReady();
+    return await worker.generateNumericalCode(length);
+  }
+
+  public async createHmac(input: string, secret: string) {
+    const worker = await this.onReady();
+    return await worker.createHmac(input, secret);
+  }
+
+  public async compareHmac(input: string, hash: string, secret: string) {
+    const worker = await this.onReady();
+    return await worker.createHmac(input, secret) === hash;
   }
 
   public async [Symbol.asyncDispose]() {

@@ -13,7 +13,9 @@
     "experimentalDecorators": true,
     "moduleResolution": "node16",
     "importHelpers": true,
-    "lib": ["es2024"],
+    "lib": [
+      "es2024"
+    ],
     "module": "nodenext",
     "target": "es2024",
     "useDefineForClassFields": false,
@@ -22,7 +24,13 @@
     "esModuleInterop": true,
     "rootDir": "./src",
     "resolveJsonModule": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "plugins": [
+      {
+        "transform": "typia/lib/transform"
+      }
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "src/**/*.ts"
