@@ -1,18 +1,12 @@
 export type Task = {
   id: number;
-  assignedUserId: number | null;
+  assigned_user_id: number | null;
   title: string;
   description: string | null;
-  dueDate: Date | null;
+  due_date: Date | null;
   completed: boolean;
-  caseId: number | null;
+  case_id: number | null;
   tags: string[] | null;
-  timeEntries: {
-    userId: number;
-    start: Date;
-    end: Date;
-    note: string | null;
-  }[] | null;
-  created: Date;
-  updated: Date | null;
+  business_id: number;
+  last_modified: Date;
 }

@@ -2,6 +2,6 @@ export type AuthToken = {
   id: number;
   value: Buffer;
   salt: Buffer;
-  userId: number;
+  user_id: number;
   expiration: Date;
 }

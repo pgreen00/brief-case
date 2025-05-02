@@ -23,16 +23,10 @@ export type Intake = {
 
 export type Case = {
   id: number;
-  number: string;
-  userId: number;
-  caseTypeId: number;
-  caseStatusId: number;
+  business_user_id: number;
+  case_group_id: number;
   intake: Intake; //encrypted
-  tags: string[] | null;
-  timeEntries: {
-    userId: number;
-    start: Date;
-    end: Date;
-    note: string | null;
-  }[] | null;
+  tags: string[] | null
+  code: string;
+  last_modified: Date;
 }

@@ -1,0 +1,15 @@
+{
+    "postman.settings.dotenv-detection-notification-visibility": false,
+    "sqltools.connections": [
+        {
+            "previewLimit": 500,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "Brief Case",
+            "database": "brief_case",
+            "username": "psg"
+        }
+    ]
+}

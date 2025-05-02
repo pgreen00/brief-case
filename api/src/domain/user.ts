@@ -1,46 +1,27 @@
-export type Role = 'client' | 'employee' | 'superuser';
-
-export const rights = [
-  'user:delete',
-  'user:edit',
-  'user:read',
-  'user:create',
-  'case:updateTags',
-  'case:updateStatus',
-  'task:create',
-  'task:update',
-  'task:delete',
-  'task:getAll'
-] as const;
-
-export type Right = typeof rights[number];
-
 export type User = {
   id: number;
-  guid: string;
   email: string; //encrypted
-  emailHint: string;
+  email_hint: string;
   phone: string | null; //encrypted
-  altPhone: string | null; //encrypted
-  firstName: string | null;
-  middleName: string | null; //encrypted
-  lastName: string | null; //encrypted
+  alt_phone: string | null; //encrypted
+  first_name: string | null;
+  middle_name: string | null; //encrypted
+  last_name: string | null; //encrypted
   dob: Date | null; //encrypted
   gender: string | null; //encrypted
   ssn: string | null; //encrypted
-  altContact: string | null; //encrypted
-  altContactPhone: string | null; //encrypted
+  alt_contact: string | null; //encrypted
+  alt_contact_phone: string | null; //encrypted
   pw: string | null; //bcrypt
   dek: Buffer | null;
   iv: Buffer | null;
-  registrationCode: string | null;
-  registrationCodeExpiration: Date | null;
-  lastLogin: Date | null;
-  lockedOut: boolean;
-  lockedOutUntil: Date | null;
-  role: Role;
-  rights: Right[];
-  settings: {
-    [key: string]: string;
-  } | null;
+  registration_code: string | null;
+  registration_code_expiration: Date | null;
+  last_login: Date | null;
+  locked_out: boolean;
+  locked_out_until: Date | null;
+  settings: Record<string, string> | null;
+  is_deleted: boolean;
+  dek_expiration: Date | null;
+  last_modified: Date;
 }

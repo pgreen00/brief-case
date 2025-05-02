@@ -6,3 +6,10 @@
 - Redis for cache and rate limiting
 - S3 integration
 - Fees & Payments??
+
+
+## schema issues
+
+- soft deletes and `on delete cascade` stuff
+- tenant isolation
+- fine tuning indexes

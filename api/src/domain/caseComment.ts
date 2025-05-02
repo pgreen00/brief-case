@@ -1,8 +1,9 @@
-export type Comment = {
+export type CaseComment = {
   id: number;
   content: string; //encrypted
-  caseId: number;
-  parentId: number | null;
-  userId: number;
-  createdAt: Date
+  case_id: number;
+  parent_id: number | null;
+  user_id: number;
+  created_at: Date;
+  last_modified: Date;
 }

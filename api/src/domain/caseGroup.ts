@@ -1,9 +1,10 @@
 export type CaseGroup = {
   id: number;
-  name: string;
+  title: string;
+  business_id: number;
   description: string | null;
-  parentId: number | null;
-  rank: number | null;
-  created: Date;
-  updated: Date | null;
+  parent_id: number | null;
+  group_rank: number | null;
+  automations: Record<string, string> | null;
+  last_modified: Date;
 }
