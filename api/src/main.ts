@@ -5,21 +5,14 @@ import compress from 'koa-compress';
 import zlib from 'zlib';
 import logger from 'koa-logger';
 import cors from './middleware/cors.js';
-import { mapRoutes } from './infrastructure/routes.js';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { mapRoutes } from './routes/router.js';
 import { getSecret, isproduction } from './infrastructure/configuration.js';
 import { createServer } from 'http';
 import KeyGrip from 'keygrip';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 const app = new Koa();
-
+const router = await mapRoutes(import.meta.url, `./routes`);
 app.keys = new KeyGrip([(await getSecret('COOKIE_KEY'))!], 'sha256');
-
-const router = await mapRoutes(join(__dirname, `./routes`));
 
 if (!isproduction) {
   app.use(logger());

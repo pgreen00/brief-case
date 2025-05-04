@@ -4,12 +4,12 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon",
-    "build": "tsc",
+    "build": "tsc && copyfiles --all --up 1 --exclude \"./**/*.{ts,tsx}\" \"./src/**/*\" ./dist",
     "prepare": "ts-patch install"
   },
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.637.0",
     "@aws-sdk/client-kms": "^3.637.0",
+    "@aws-sdk/client-secrets-manager": "^3.637.0",
     "@date-fns/utc": "2.1.0",
     "bcrypt": "^5.1.1",
     "date-fns": "^4.1.0",
@@ -21,6 +21,8 @@
     "koa-logger": "^3.2.1",
     "koa-ratelimit": "^5.1.0",
     "koa-router": "^13.0.1",
+    "koa2-swagger-ui": "^5.11.0",
+    "openapi3-ts": "^4.4.0",
     "pg-promise": "^11.5.0",
     "rxjs": "^7.8.1",
     "threads": "^1.7.0",
@@ -34,7 +36,7 @@
     "@types/koa-logger": "^3.1.5",
     "@types/koa-ratelimit": "^5.0.5",
     "@types/koa-router": "^7.4.8",
-    "@types/node": "^22.3.0",
+    "copyfiles": "^2.4.1",
     "nodemon": "^3.1.4",
     "ts-patch": "^3.3.0",
     "typescript": "~5.8.3"

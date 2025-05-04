@@ -10,7 +10,7 @@ const client = new SecretsManagerClient({
   profile: process.env['AWS_PROFILE']
 });
 
-export const getSecret = async (name: string): Promise<string | undefined> => {
+export async function getSecret(name: string) {
   if (isproduction) {
     try {
       const response = await client.send(new GetSecretValueCommand({
@@ -27,6 +27,6 @@ export const getSecret = async (name: string): Promise<string | undefined> => {
     }
     return undefined;
   } else {
-    return Promise.resolve(process.env[name]);
+    return process.env[name];
   }
 }

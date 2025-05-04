@@ -1,6 +1,6 @@
 import { ParameterizedContext } from 'koa';
 import db from '../../infrastructure/database.js';
-import { Route } from '../../infrastructure/routes.js';
+import { Route } from '../router.js';
 
 async function handler(ctx: ParameterizedContext) {
   const select = ctx.query['select']

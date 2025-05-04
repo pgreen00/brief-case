@@ -1,12 +1,12 @@
-import { Context, Next, ParameterizedContext } from 'koa';
+import { ParameterizedContext } from 'koa';
 import db from '../../infrastructure/database.js';
-import { Route } from '../../infrastructure/routes.js';
+import { Route } from '../router.js';
 import typia, { tags } from 'typia';
 import Encryptor from '../../infrastructure/encryptor/encryptor.js';
 import Hasher from '../../infrastructure/hasher/hasher.js';
 import { generateDek } from '../../infrastructure/kms.js';
 import { getSecret } from '../../infrastructure/configuration.js';
-import { Role } from '../../domain/businessUser.js';
+import bodyValidator from '../../middleware/body-validator.js';
 
 const hmacKey = await getSecret('SEARCH_HMAC_KEY');
 
@@ -14,21 +14,10 @@ interface Dto {
   email: string & tags.Format<'email'>
   password: string & tags.MinLength<8> & tags.MaxLength<64>
   businessId: number
-  role?: Role
+  role?: Schema.Role
 }
 
-function bodyValidator (ctx: Context, next: Next) {
-  try {
-    const body = ctx.request.body
-    const dto = typia.assert<Dto>(body)
-    ctx.state['dto'] = dto
-  } catch (error) {
-    ctx.throw(400, error as Error)
-  }
-  return next();
-}
-
-async function handler (ctx: ParameterizedContext<{dto: Dto}>) {
+async function handler(ctx: ParameterizedContext<{dto: Dto}>) {
   const { email, password, businessId, role } = ctx.state.dto
 
   await using hasher = new Hasher();
@@ -56,7 +45,10 @@ async function handler (ctx: ParameterizedContext<{dto: Dto}>) {
 const route: Route = {
   method: 'post',
   path: '/users',
-  middleware: [bodyValidator, handler]
+  middleware: [
+    bodyValidator(body => typia.assert<Dto>(body)),
+    handler
+  ]
 }
 
 export default route

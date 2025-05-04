@@ -6,5 +6,5 @@
   "ignore": [
     "dist"
   ],
-  "exec": "tsc && node --inspect=9229 dist/main.js"
+  "exec": "npm run build && node --inspect=9229 dist/main.js"
 }

@@ -1,12 +1,13 @@
-import { Context, Next, ParameterizedContext } from 'koa';
+import { ParameterizedContext } from 'koa';
 import db from '../../infrastructure/database.js';
-import { Route } from '../../infrastructure/routes.js';
+import { Route } from '../router.js';
 import typia, { tags } from 'typia';
 import Encryptor from '../../infrastructure/encryptor/encryptor.js';
 import Hasher from '../../infrastructure/hasher/hasher.js';
 import { getSecret } from '../../infrastructure/configuration.js';
 import { decryptDek } from '../../infrastructure/kms.js';
 import { hoursToMilliseconds } from 'date-fns';
+import bodyValidator from '../../middleware/body-validator.js';
 
 const hmacKey = await getSecret('SEARCH_HMAC_KEY');
 
@@ -16,18 +17,7 @@ interface Dto {
   businessId: number
 }
 
-function bodyValidator (ctx: Context, next: Next) {
-  try {
-    const body = ctx.request.body
-    const dto = typia.assert<Dto>(body)
-    ctx.state['dto'] = dto
-  } catch (error) {
-    ctx.throw(400, error as Error)
-  }
-  return next();
-}
-
-async function handler (ctx: ParameterizedContext<{dto: Dto}>) {
+async function handler(ctx: ParameterizedContext<{dto: Dto}>) {
   const { email, password, businessId } = ctx.state.dto
 
   await using hasher = new Hasher();
@@ -47,7 +37,101 @@ async function handler (ctx: ParameterizedContext<{dto: Dto}>) {
 const route: Route = {
   method: 'post',
   path: '/users/authenticate',
-  middleware: [bodyValidator, handler]
+  middleware: [
+    bodyValidator(body => typia.assert<Dto>(body)),
+    handler
+  ],
+  openapi: {
+    description: 'Takes in your email, password, and business and returns the necessary cookies to authenticate you with other endpoints. Cookies last a maximum of 48 hours and refresh with every request.',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              email: {
+                type: 'string',
+                format: 'email'
+              },
+              password: {
+                type: 'string',
+                minLength: 8,
+                maxLength: 64
+              },
+              businessId: {
+                type: 'number'
+              }
+            }
+          }
+        }
+      }
+    },
+    responses: {
+      200: {
+        description: 'OK',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'string'
+                },
+                email: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        }
+      },
+      400: {
+        description: 'Bad Request',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        }
+      },
+      401: {
+        description: 'Unauthorized',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        }
+      },
+      404: {
+        description: 'Not Found',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                message: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 export default route

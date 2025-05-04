@@ -1,17 +1,22 @@
 import { ParameterizedContext } from 'koa';
 import db from '../../infrastructure/database.js';
 import { Route } from '../router.js';
+import authenticated from '../../middleware/authenticated.js';
 import typia from 'typia';
 import bodyValidator from '../../middleware/body-validator.js';
 
 interface Dto {
-  name: string,
-  displayName: string
+	title: string
+	businessId: number
+	description: string | null
+	groupRank: number | null
+	parentId: number | null
 }
-async function handler(ctx: ParameterizedContext<{dto: Dto}>) {
+
+async function handler (ctx: ParameterizedContext<{dto: Dto}>) {
   await db.tx(async (tx) => {
     ctx.body = await tx.one<{id:number}>(
-      'INSERT INTO businesses (business_name, display_name) VALUES (${name}, ${displayName}) RETURNING id',
+      'INSERT INTO case_groups (title, business_id, description, group_rank, parent_id) VALUES (${title}, ${businessId}, ${description}, ${groupRank}, ${parentId}) RETURNING id',
       ctx.state.dto
     )
   })
@@ -19,8 +24,9 @@ async function handler(ctx: ParameterizedContext<{dto: Dto}>) {
 
 const route: Route = {
   method: 'post',
-  path: '/businesses',
+  path: '/case_groups',
   middleware: [
+    authenticated(),
     bodyValidator(body => typia.assert<Dto>(body)),
     handler
   ]

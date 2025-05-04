@@ -1,11 +1,7 @@
-import { Context, Next, ParameterizedContext } from 'koa';
+import { ParameterizedContext } from 'koa';
 import db from '../../infrastructure/database.js';
-import { Route } from '../../infrastructure/routes.js';
-
-function guard(ctx: Context, next: Next) {
-  ctx.assert(ctx.cookies.get('business_user_id', { signed: true }), 401, 'Unauthorized')
-  return next()
-}
+import { Route } from '../router.js';
+import authenticated from '../../middleware/authenticated.js';
 
 async function handler(ctx: ParameterizedContext) {
   const select = ctx.query['select']
@@ -20,7 +16,10 @@ async function handler(ctx: ParameterizedContext) {
 const route: Route = {
   method: 'get',
   path: '/businesses/:id',
-  middleware: [guard, handler]
+  middleware: [
+    authenticated(),
+    handler
+  ]
 }
 
 export default route
