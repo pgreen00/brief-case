@@ -8,13 +8,12 @@ interface Dto {
   name: string,
   displayName: string
 }
+
 async function handler(ctx: ParameterizedContext<{dto: Dto}>) {
-  await db.tx(async (tx) => {
-    ctx.body = await tx.one<{id:number}>(
-      'INSERT INTO businesses (business_name, display_name) VALUES (${name}, ${displayName}) RETURNING id',
-      ctx.state.dto
-    )
-  })
+  ctx.body = await db.one<{id:number}>(
+    'INSERT INTO businesses (business_name, display_name) VALUES (${name}, ${displayName}) RETURNING id',
+    ctx.state.dto
+  )
 }
 
 const route: Route = {

@@ -1,0 +1,39 @@
+declare const server: string;
+declare const production: boolean;
+
+declare const rights = [
+  'case_groups:write',
+  'case_groups:read',
+  'cases:write',
+  'cases:read',
+  'users:write',
+  'users:read',
+  'businesses:write',
+  'businesses:read',
+  'appointments:write',
+  'appointments:read',
+  'business_notes:write',
+  'business_notes:read',
+  'messages:write',
+  'messages:read'
+] as const;
+
+declare type Right = typeof rights[number];
+
+declare type Role = 'client' | 'employee' | 'superuser';
+
+declare type User = {
+  business_id: number;
+  user_id: number;
+  user_role: Role;
+  rights: Right[];
+  id: string;
+  last_modified: Date;
+}
+
+declare type Business = {
+  id: number;
+  business_name: string;
+  display_name: string;
+  last_modified: Date;
+}

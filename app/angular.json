@@ -9,9 +9,6 @@
         "@schematics/angular:component": {
           "style": "scss",
           "skipTests": true
-        },
-        "@schematics/angular:service": {
-          "skipTests": true
         }
       },
       "root": "",
@@ -28,6 +25,10 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "namedChunks": true,
+            "define": {
+              "production": "true",
+              "server": "'https://api.thegrindsession.com'"
+            },
             "assets": [
               {
                 "glob": "**/*",
@@ -35,7 +36,9 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "../node_modules/jebamo/styles/classes.css",
+              "../node_modules/jebamo/styles/variables.css"
             ],
             "scripts": []
           },
@@ -58,7 +61,11 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "define": {
+                "production": "false",
+                "server": "'http://localhost:27132'"
+              }
             }
           },
           "defaultConfiguration": "production"

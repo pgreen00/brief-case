@@ -17,7 +17,7 @@ const route: Route = {
   method: 'get',
   path: '/businesses/:id',
   middleware: [
-    authenticated(),
+    authenticated,
     handler
   ]
 }

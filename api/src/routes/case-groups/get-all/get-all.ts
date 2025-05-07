@@ -3,7 +3,6 @@ import authenticated from '../../../middleware/authenticated.js';
 import { Route } from '../../router.js';
 import db from '../../../infrastructure/database.js';
 import sql from '../../../infrastructure/sql.js';
-import authorized from '../../..//middleware/authorized.js';
 
 type CaseGroupWithDepth = Schema.CaseGroup & { depth: number, path: number[] }
 type CaseGroupWithChildren = Schema.CaseGroup & { children: CaseGroupWithChildren[] }
@@ -45,8 +44,7 @@ const route: Route = {
   method: 'get',
   path: '/case_groups',
   middleware: [
-    authenticated(),
-    authorized('case_groups:write'),
+    authenticated,
     handler
   ]
 }

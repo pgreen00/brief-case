@@ -1,0 +1,17 @@
+<div class="container je-radius-md je-elevation-lg je-shadow-lg je-padding-horizontal je-padding-bottom">
+    <h3>Login</h3>
+    <je-form (formData)="submit($event.detail)">
+        <je-divider/>
+        <div class="controls">
+            <je-select required name="businessId" label="Business" placeholder="Select a business">
+                @for (item of businesses(); track item.id) {
+                    <je-option [value]="item.id">{{item.display_name}}</je-option>
+                }
+            </je-select>
+            <je-textfield required name="email" label="Email"/>
+            <je-textfield required name="pw" label="Password" type="password"/>
+        </div>
+        <je-divider/>
+        <je-button expand color="secondary" type="submit">Sign In</je-button>
+    </je-form>
+</div>

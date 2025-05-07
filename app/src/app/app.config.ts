@@ -10,7 +10,7 @@ export const appConfig: ApplicationConfig = {
     provideExperimentalZonelessChangeDetection(),
     provideRouter(routes),
     provideJebamo(),
-    provideAppInitializer(async () => {
+    /*provideAppInitializer(async () => {
       const menu = await Menu.new({
         items: [
           {
@@ -25,6 +25,6 @@ export const appConfig: ApplicationConfig = {
         tooltip: 'awesome tray tooltip',
         icon: 'icons/icon.png'
       });
-    })
+    })*/
   ]
 };
