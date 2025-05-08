@@ -4,14 +4,14 @@
         <je-icon-button icon="edit"/>
     </je-tooltip>
     <je-tooltip slot="end" content="Add new case">
-        <je-icon-button icon="add"/>
+        <je-icon-button (click)="openCaseWizard()" icon="add"/>
     </je-tooltip>
 </je-toolbar>
-<je-tree selection="single">
+<je-tree selection="single" (valueChange)="setGroup($event.detail)">
     @for (item of caseGroups.value(); track item.id) {
         <je-branch [value]="item.id" [label]="item.title">
             @for (child of item.children; track child.id) {
-                <je-branch [value]="child.id" [label]="child.title"></je-branch>
+                <je-branch [value]="child.id" [label]="child.title"/>
             }
         </je-branch>
     }

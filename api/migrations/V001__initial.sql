@@ -22,7 +22,7 @@ CREATE TABLE public.users (
 	search_token text NOT NULL,
 	phone bytea NULL,
 	alt_phone bytea NULL,
-	first_name text NULL,
+	first_name bytea NULL,
 	middle_name bytea NULL,
 	last_name bytea NULL,
 	dob bytea NULL,
@@ -106,8 +106,8 @@ CREATE TABLE public.cases (
 	tags text[] NULL,
 	code text GENERATED ALWAYS AS ('CASE-' || lpad(id::text, 4, '0'::text)) STORED NOT NULL UNIQUE,
 	last_modified timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  modified_by_user_id integer NULL REFERENCES public.users(id) ON DELETE SET NULL,
-  sys_period tstzrange NOT NULL DEFAULT tstzrange(CURRENT_TIMESTAMP, null)
+    modified_by_user_id integer NULL REFERENCES public.users(id) ON DELETE SET NULL,
+    sys_period tstzrange NOT NULL DEFAULT tstzrange(CURRENT_TIMESTAMP, null)
 );
 
 -- Table Triggers

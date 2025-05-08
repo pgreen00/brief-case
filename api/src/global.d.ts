@@ -32,16 +32,6 @@ declare namespace Schema {
     'case_groups:read',
     'cases:write',
     'cases:read',
-    'users:write',
-    'users:read',
-    'businesses:write',
-    'businesses:read',
-    'appointments:write',
-    'appointments:read',
-    'business_notes:write',
-    'business_notes:read',
-    'messages:write',
-    'messages:read'
   ] as const;
 
   declare type Right = typeof rights[number];
@@ -120,10 +110,11 @@ declare namespace Schema {
     id: number;
     business_user_id: number;
     case_group_id: number;
-    intake: Intake; //encrypted
+    intake: Buffer;
     tags: string[] | null
     code: string;
     last_modified: Date;
+    modified_by_user_id: number | null;
   }
 
   declare type Message = {

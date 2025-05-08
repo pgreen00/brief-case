@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideAppInitializer, provideExperimentalZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 import { routes } from './app.routes';
 import { provideJebamo } from 'jebamo-angular';
 import { TrayIcon } from '@tauri-apps/api/tray';
@@ -8,7 +8,7 @@ import { Menu } from '@tauri-apps/api/menu';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
-    provideRouter(routes),
+    provideRouter(routes, withViewTransitions(), withComponentInputBinding()),
     provideJebamo(),
     /*provideAppInitializer(async () => {
       const menu = await Menu.new({

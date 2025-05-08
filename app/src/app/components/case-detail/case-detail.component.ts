@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'bc-case-detail',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './case-detail.component.scss'
 })
 export class CaseDetailComponent {
-
+  id = input.required<number>();
 }

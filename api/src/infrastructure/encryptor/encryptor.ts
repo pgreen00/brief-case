@@ -6,7 +6,7 @@ export default class Encryptor {
   private worker$ = new AsyncSubject<ModuleThread<EncryptorThread> | null>();
   private onReady = async () => await lastValueFrom(this.worker$) ?? Promise.reject('Failed to spawn a worker');
 
-  constructor(encryptionKey: Buffer) {
+  constructor(encryptionKey?: Buffer) {
     spawn<EncryptorThread>(new Worker('./encryptor.worker.js'))
       .then(async worker => {
         await worker.init(encryptionKey);
@@ -30,6 +30,11 @@ export default class Encryptor {
   public async decrypt(cipherText: Buffer, iv: Buffer) {
     const worker = await this.onReady();
     return await worker.decrypt(cipherText, iv);
+  }
+
+  public async setKey(key: Buffer) {
+    const worker = await this.onReady();
+    await worker.setKey(key);
   }
 
   public async [Symbol.asyncDispose]() {

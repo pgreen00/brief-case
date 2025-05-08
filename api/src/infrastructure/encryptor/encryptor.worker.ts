@@ -4,8 +4,8 @@ import { expose } from 'threads/worker';
 let encryptionKey: Buffer;
 
 const encryptorThread = {
-  init: (key: Buffer) => {
-    encryptionKey = key
+  init: (key?: Buffer) => {
+    if (key) encryptionKey = key
   },
   encrypt: (raw: string, iv?: Buffer) => {
     iv ??= randomBytes(16);
@@ -19,6 +19,9 @@ const encryptorThread = {
     let decrypted = decipher.update(cipherText);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     return decrypted.toString('utf8');
+  },
+  setKey: (key: Buffer) => {
+    encryptionKey = key
   }
 }
 

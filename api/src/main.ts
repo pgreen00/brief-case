@@ -19,7 +19,7 @@ if (!isproduction) {
 }
 
 app
-.use(cors)
+  .use(cors)
   .use(ratelimit({ //needs to use redis
     driver: 'memory',
     db: new Map(),

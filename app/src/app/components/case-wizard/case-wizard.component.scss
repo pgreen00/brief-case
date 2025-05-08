@@ -1,0 +1,10 @@
+je-wizard {
+  margin-inline: auto;
+  width: fit-content;
+}
+
+#steps-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--je-spacing-lg);
+}

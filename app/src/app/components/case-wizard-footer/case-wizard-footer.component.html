@@ -1,0 +1,10 @@
+<je-toolbar>
+    @if (step()) {
+        <je-button color="primary" (click)="back()">
+            Back
+        </je-button>
+    }
+    <je-button form="new-case-form" type="submit" slot="end" color="primary">
+        {{step() == 2 ? 'Submit' : 'Next'}}
+    </je-button>
+</je-toolbar>

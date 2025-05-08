@@ -1,1 +1,4 @@
-<p>cases-view works!</p>
+<p class="je-padding-bottom">{{groupId()}}</p>
+@for (item of cases.value(); track $index) {
+    <p>{{item.code}}</p>
+}
