@@ -32,6 +32,7 @@ async function handler(ctx: ParameterizedContext<{user: Schema.BusinessUser}>) {
   await using encryptor = new Encryptor();
   const res = []
   for (const q of query) {
+    console.log(q.iv)
     await encryptor.setKey(await decryptDek(q.dek))
     res.push({
       id: q.id,

@@ -7,10 +7,10 @@ import { fromFetch } from 'rxjs/fetch';
 @Component({
   selector: 'bc-login',
   imports: [JeForm, JeTextfield, JeButton, JeSelect, JeOption, JeDivider],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  templateUrl: './login.html',
+  styleUrl: './login.css'
 })
-export class LoginComponent {
+export class Login {
   private router = inject(Router);
   public businesses = toSignal(fromFetch<Business[]>(`${server}/businesses`, { selector: res => res.json() }))
 

@@ -1,0 +1,66 @@
+<je-wizard #wizard [steps]="steps" (stepChange)="step.set($event.detail)"/>
+
+<je-form id="new-case-form" (formData)="submit($event.detail)">
+    <div id="steps-container" class="je-padding-vertical-lg">
+        @switch (step()) {
+            @case (0) {
+                <je-textfield name="firstName" required label="First Name"/>
+                <je-textfield name="middleName" label="Middle Name"/>
+                <je-textfield name="lastName" required label="Last Name"/>
+                <je-popover placement="bottom" arrow="false">
+                    <je-textfield #dob
+                        name="dob"
+                        slot="trigger"
+                        required
+                        label="Date of Birth"
+                        type="date"
+                        transform="date"
+                        suppressDefaultBehavior
+                        (valueChange)="dobPicker.value = $event.detail"
+                    />
+                    <je-datepicker #dobPicker
+                        type="date"
+                        (valueChange)="dob.value = $event.detail"
+                    />
+                </je-popover>
+                <je-textfield name="gender" label="Gender"/>
+                <je-textfield name="phone" required label="Phone"/>
+                <je-textfield name="altPhone" label="Alt Phone"/>
+                <je-textfield name="email" required label="Email"/>
+                <je-textfield name="altContact" label="Alt Contact"/>
+                <je-textfield name="altContactPhone" label="Alt Contact Phone"/>
+                <je-textfield name="ssn" required label="SSN"/>
+            }
+            @case (1) {
+                <je-textfield name="address" required label="Address"/>
+                <je-textfield name="maritalStatus" label="Marital Status"/>
+                <je-textfield name="spouseOrEx" label="Spouse or Ex"/>
+                <je-textfield name="maidenName" label="Maiden Name"/>
+                <je-textfield name="mothersLastName" label="Mother's Last Name"/>
+                <je-textfield name="hs" label="High School"/>
+                <je-textfield name="college" label="College"/>
+                <je-checkbox name="priorFiling">Prior Filing?</je-checkbox>
+                <je-textfield name="dlw" label="Date Last Worked"/>
+                <je-textfield name="workHistory" multiline required label="Work History"/>
+                <je-textfield name="impairments" multiline required label="Impairments"/>
+                <je-textfield name="medical" multiline required label="Medical"/>
+                <je-textfield name="pharmacy" required label="Pharmacy"/>
+                <je-textfield name="notes" multiline required label="Notes"/>
+                <je-textfield name="referral" label="Referral"/>
+                <je-checkbox name="feeAgreement">Fee Agreement?</je-checkbox>
+            }
+            @case (2) {
+                <je-textfield required name="caseGroup" style="display: none;" #cg />
+                <je-tree selection="single" (valueChange)="cg.value = $event.detail">
+                    @for (item of caseGroups.value(); track item.id) {
+                        <je-branch [value]="item.id" [label]="item.title">
+                            @for (child of item.children; track child.id) {
+                                <je-branch [value]="child.id" [label]="child.title"/>
+                            }
+                        </je-branch>
+                    }
+                </je-tree>
+            }
+        }
+    </div>
+</je-form>

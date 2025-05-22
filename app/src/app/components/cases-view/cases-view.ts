@@ -19,17 +19,17 @@ type Case = {
 @Component({
   selector: 'bc-cases-view',
   imports: [],
-  templateUrl: './cases-view.component.html',
-  styleUrl: './cases-view.component.scss'
+  templateUrl: './cases-view.html',
+  styleUrl: './cases-view.css'
 })
-export class CasesViewComponent {
+export class CasesView {
   groupId = input<number>();
 
   cases = resource({
-    request: () => this.groupId(),
-    loader: async ({request}) => {
-      if (!request) return []
-      const response = await fetch(`${server}/cases/by_group/${request}`, { credentials: 'include' });
+    params: () => this.groupId(),
+    loader: async ({params}) => {
+      if (!params) return []
+      const response = await fetch(`${server}/cases/by_group/${params}`, { credentials: 'include' });
       return await response.json() as Case[];
     }
   })

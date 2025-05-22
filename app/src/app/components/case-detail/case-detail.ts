@@ -3,9 +3,9 @@ import { Component, input } from '@angular/core';
 @Component({
   selector: 'bc-case-detail',
   imports: [],
-  templateUrl: './case-detail.component.html',
-  styleUrl: './case-detail.component.scss'
+  templateUrl: './case-detail.html',
+  styleUrl: './case-detail.css'
 })
-export class CaseDetailComponent {
+export class CaseDetail {
   id = input.required<number>();
 }

@@ -1,6 +1,6 @@
 import { InjectionToken } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { CanActivateFn } from "@angular/router";
+import { CanActivateFn, CanMatchFn } from "@angular/router";
 import { BehaviorSubject, catchError, map, of, switchMap, tap } from "rxjs";
 import { fromFetch } from "rxjs/fetch";
 
@@ -17,6 +17,6 @@ const fetchUser$ = fromFetch(`${server}/auth`, { credentials: 'include' }).pipe(
   tap(user => user$.next(user))
 )
 
-export const auth: CanActivateFn = (_route, _state) => {
+export const auth: CanMatchFn | CanActivateFn = () => {
   return user$.value ? true : fetchUser$.pipe(map(() => !!user$.value))
 }

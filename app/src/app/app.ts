@@ -5,9 +5,9 @@ import { JePage } from 'jebamo-angular';
 @Component({
   selector: 'bc-root',
   imports: [RouterOutlet, JePage],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.css'
 })
-export class AppComponent {
+export class App {
   title = 'brief-case-app';
 }

@@ -19,10 +19,10 @@ interface Dto {
     firstName: string
     lastName: string
     middleName: string | null
-    dob: Date
+    dob: string
     gender: string | null
     phone: string
-    alt_phone: string | null
+    altPhone: string | null
     email: string
     altContact: string
     altContactPhone: string
@@ -36,7 +36,7 @@ async function createUser(tx: ITask<{}>, info: Dto['client'], businessId: number
     const res = await tx.one('select dek, iv from users u join business_users bu on bu.user_id = u.id where bu.id = $1', info)
     return { id: info, dek: await decryptDek(res.dek), iv: res.iv }
   } else {
-    const { firstName, lastName, middleName, dob, gender, phone, email, altContact, altContactPhone, ssn, alt_phone } = info
+    const { firstName, lastName, middleName, dob, gender, phone, email, altContact, altContactPhone, ssn, altPhone } = info
     await using hasher = new Hasher();
     const searchToken = await hasher.createHmac(email.toLowerCase().trim(), hmacKey!)
     const { plaintext, ciphertext } = await generateDek();
@@ -49,9 +49,9 @@ async function createUser(tx: ITask<{}>, info: Dto['client'], businessId: number
     const [encryptedFirstName] = await encryptor.encrypt(firstName, iv)
     const [encryptedLastName] = await encryptor.encrypt(lastName, iv)
     const [encryptedMiddleName] = middleName ? await encryptor.encrypt(middleName, iv) : [null]
-    const [encryptedDob] = await encryptor.encrypt(dob.toISOString(), iv)
+    const [encryptedDob] = await encryptor.encrypt(dob, iv)
     const [encryptedGender] = gender ? await encryptor.encrypt(gender, iv) : [null]
-    const [encryptedAltPhone] = alt_phone ? await encryptor.encrypt(alt_phone, iv) : [null]
+    const [encryptedAltPhone] = altPhone ? await encryptor.encrypt(altPhone, iv) : [null]
     const userId = await tx.one<{id:number}>(sql(import.meta.url, `./insert-client.sql`), {
       encryptedEmail,
       searchToken,
@@ -70,7 +70,7 @@ async function createUser(tx: ITask<{}>, info: Dto['client'], businessId: number
     })
     const businessUser = await tx.one<{id: string}>({
       text: 'INSERT INTO business_users (user_id, business_id, user_role) VALUES ($1, $2, $3) RETURNING id',
-      values: [userId, businessId, 'client']
+      values: [userId.id, businessId, 'client']
     })
     return { id: businessUser.id, dek: plaintext, iv }
   }
@@ -87,7 +87,6 @@ async function handler(ctx: ParameterizedContext<{dto: Dto, user: Schema.Busines
       intake: encryptedIntake,
       caseGroup,
       clientId: id,
-      businessId: business_id,
       userId: user_id
     })
     ctx.status = 201

@@ -4,10 +4,10 @@ import { JeButton, JeToolbar } from 'jebamo-angular';
 @Component({
   selector: 'bc-case-wizard-footer',
   imports: [JeToolbar, JeButton],
-  templateUrl: './case-wizard-footer.component.html',
-  styleUrl: './case-wizard-footer.component.scss'
+  templateUrl: './case-wizard-footer.html',
+  styleUrl: './case-wizard-footer.css'
 })
-export class CaseWizardFooterComponent {
+export class CaseWizardFooter {
   step = input<number, string>(undefined, {transform:numberAttribute});
 
   back() {

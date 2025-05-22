@@ -102,7 +102,7 @@ CREATE TABLE public.cases (
 	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	business_user_id uuid NOT NULL REFERENCES public.business_users(id) ON DELETE RESTRICT,
 	case_group_id integer NOT NULL REFERENCES public.case_groups(id) ON DELETE RESTRICT,
-	intake jsonb NOT NULL,
+	intake bytea NOT NULL,
 	tags text[] NULL,
 	code text GENERATED ALWAYS AS ('CASE-' || lpad(id::text, 4, '0'::text)) STORED NOT NULL UNIQUE,
 	last_modified timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,

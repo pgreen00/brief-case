@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { auth } from './utils/auth';
+import { auth } from './tokens/current-user';
 
 export const routes: Routes = [
   {
@@ -11,17 +11,17 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./components/cases-view/cases-view.component').then(m => m.CasesViewComponent),
+            loadComponent: () => import('./components/cases-view/cases-view').then(m => m.CasesView),
             outlet: 'main'
           },
           {
             path: '',
-            loadComponent: () => import('./components/main-panel/main-panel.component').then(m => m.MainPanelComponent),
+            loadComponent: () => import('./components/main-panel/main-panel').then(m => m.MainPanel),
             outlet: 'leftpanel'
           },
           {
             path: '',
-            loadComponent: () => import('./components/main-footer/main-footer.component').then(m => m.MainFooterComponent),
+            loadComponent: () => import('./components/main-footer/main-footer').then(m => m.MainFooter),
             outlet: 'footer'
           }
         ]
@@ -31,12 +31,12 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./components/case-wizard/case-wizard.component').then(m => m.CaseWizardComponent),
+            loadComponent: () => import('./components/case-wizard/case-wizard').then(m => m.CaseWizard),
             outlet: 'main'
           },
           {
             path: '',
-            loadComponent: () => import('./components/case-wizard-footer/case-wizard-footer.component').then(m => m.CaseWizardFooterComponent),
+            loadComponent: () => import('./components/case-wizard-footer/case-wizard-footer').then(m => m.CaseWizardFooter),
             outlet: 'footer'
           }
         ]
@@ -46,7 +46,7 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./components/case-detail/case-detail.component').then(m => m.CaseDetailComponent),
+            loadComponent: () => import('./components/case-detail/case-detail').then(m => m.CaseDetail),
             outlet: 'main'
           }
         ]
@@ -64,7 +64,7 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent),
+        loadComponent: () => import('./components/login/login').then(m => m.Login),
         outlet: 'main'
       }
     ]

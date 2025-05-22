@@ -27,14 +27,21 @@ declare namespace Schema {
 
   declare type Role = 'client' | 'employee' | 'superuser';
 
-  declare const rights = [
-    'case_groups:write',
-    'case_groups:read',
-    'cases:write',
-    'cases:read',
-  ] as const;
-
-  declare type Right = typeof rights[number];
+  declare type Right =
+    'case_groups:write' |
+    'case_groups:read' |
+    'cases:write' |
+    'cases:read' |
+    'users:write' |
+    'users:read' |
+    'businesses:write' |
+    'businesses:read' |
+    'appointments:write' |
+    'appointments:read' |
+    'business_notes:write' |
+    'business_notes:read' |
+    'messages:write' |
+    'messages:read';
 
   declare type BusinessUser = {
     business_id: number;
@@ -96,7 +103,7 @@ declare namespace Schema {
     hs: string | null;
     college: string | null;
     priorFiling: boolean;
-    dateLastWorked: Date;
+    dateLastWorked: string;
     workHistory: string;
     impairments: string;
     medical: string;
