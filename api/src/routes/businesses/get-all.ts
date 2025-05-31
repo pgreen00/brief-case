@@ -13,7 +13,14 @@ async function handler(ctx: ParameterizedContext) {
 const route: Route = {
   method: 'get',
   path: '/businesses',
-  middleware: [handler]
+  middleware: [handler],
+  openapi: {
+    summary: 'Get all businesses',
+    tags: ['businesses'],
+    responses: {
+      200: { description: 'The businesses' }
+    }
+  }
 }
 
 export default route

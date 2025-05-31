@@ -1,0 +1,14 @@
+je-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4rem;
+  height: 4rem;
+}
+
+:host {
+  display: block;
+  position: relative;
+  height: 100%;
+}

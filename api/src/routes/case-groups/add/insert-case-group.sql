@@ -6,10 +6,10 @@ INSERT INTO case_groups (
         parent_id
     )
 VALUES (
-        $ { title },
-        $ { businessId },
-        $ { description },
-        $ { groupRank },
-        $ { parentId }
+        ${ title },
+        ${ businessId },
+        ${ description },
+        ${ groupRank },
+        ${ parentId }
     )
 RETURNING id;

@@ -1,4 +1,6 @@
+import { JsonPipe } from '@angular/common';
 import { Component, input, resource } from '@angular/core';
+import { JeDivider, JeLoading } from 'jebamo-angular';
 
 type Case = {
   id: number
@@ -18,7 +20,7 @@ type Case = {
 
 @Component({
   selector: 'bc-cases-view',
-  imports: [],
+  imports: [JsonPipe, JeLoading, JeDivider],
   templateUrl: './cases-view.html',
   styleUrl: './cases-view.css'
 })

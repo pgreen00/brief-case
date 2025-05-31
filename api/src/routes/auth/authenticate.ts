@@ -40,7 +40,47 @@ const route: Route = {
   middleware: [
     bodyValidator(body => typia.assert<Dto>(body)),
     handler
-  ]
+  ],
+  openapi: {
+    summary: 'Authenticate a user',
+    tags: ['auth'],
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              email: { type: 'string', format: 'email' },
+              password: { type: 'string', minLength: 8, maxLength: 64 },
+              businessId: { type: 'number' }
+            }
+          }
+        }
+      }
+    },
+    responses: {
+      200: {
+        description: 'User authenticated',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                id: { type: 'number' },
+                email: { type: 'string', format: 'email' }
+              }
+            }
+          }
+        }
+      },
+      401: {
+        description: 'Invalid credentials'
+      },
+      404: {
+        description: 'User not found'
+      }
+    }
+  }
 }
 
 export default route

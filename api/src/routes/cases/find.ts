@@ -62,7 +62,22 @@ const route: Route = {
     authenticated,
     handler,
     lastModifiedCache
-  ]
+  ],
+  openapi: {
+    summary: 'Find a case',
+    tags: ['cases'],
+    responses: {
+      200: { description: 'The case' }
+    },
+    parameters: [
+      {
+        name: 'id',
+        in: 'path',
+        required: true,
+        schema: { type: 'number' }
+      }
+    ]
+  }
 }
 
 export default route

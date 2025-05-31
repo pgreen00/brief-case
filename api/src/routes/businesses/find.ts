@@ -19,7 +19,14 @@ const route: Route = {
   middleware: [
     authenticated,
     handler
-  ]
+  ],
+  openapi: {
+    summary: 'Find a business',
+    tags: ['businesses'],
+    responses: {
+      200: { description: 'The business' }
+    }
+  }
 }
 
 export default route

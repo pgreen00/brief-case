@@ -24,7 +24,7 @@ export const mapRoutes = async (modulePath: string, directory: string) => {
     paths: {}
   };
   const files = glob.sync(`${join(__dirname, directory)}/**/*.js`);
-  for (const file of files) {
+  for (const file of files.filter(file => !file.includes('.worker.js'))) {
     const absolutePath = resolve(file);
     const module = await import(absolutePath);
     const route = module.default as Route;
@@ -32,8 +32,9 @@ export const mapRoutes = async (modulePath: string, directory: string) => {
       const { path, method, middleware, openapi } = route;
       if (path && method && middleware.length) {
         router[method](path, ...middleware);
-        spec.paths![path] ??= {};
-        spec.paths![path][method] = {
+        const convertedPath = path.replace(/:([a-zA-Z0-9_]+)/g, '{$1}');
+        spec.paths![convertedPath] ??= {};
+        spec.paths![convertedPath][method] = {
           summary: `${method.toUpperCase()} ${path}`,
           ...openapi
         };

@@ -1,2 +1,4 @@
 dist/
 .env
+seed-cases.js
+seed-cases.js.map

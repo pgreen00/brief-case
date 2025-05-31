@@ -1,4 +1,10 @@
-<p class="je-padding-bottom">{{groupId()}}</p>
-@for (item of cases.value(); track $index) {
-    <p>{{item.code}}</p>
+@if (cases.isLoading()) {
+    <je-loading />
+} @else {
+    @for (item of cases.value(); track $index) {
+        <pre>{{item | json}}</pre>
+        @if (!$last) {
+            <je-divider />
+        }
+    }
 }

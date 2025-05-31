@@ -46,7 +46,14 @@ const route: Route = {
   middleware: [
     authenticated,
     handler
-  ]
+  ],
+  openapi: {
+    summary: 'Get all case groups',
+    tags: ['case_groups'],
+    responses: {
+      200: { description: 'The case groups' }
+    }
+  }
 }
 
 export default route

@@ -22,7 +22,18 @@ const route: Route = {
   middleware: [
     bodyValidator(body => typia.assert<Dto>(body)),
     handler
-  ]
+  ],
+  openapi: {
+    summary: 'Add a business',
+    tags: ['businesses'],
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {}
+        }
+      }
+    }
+  }
 }
 
 export default route

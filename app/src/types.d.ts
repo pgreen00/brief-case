@@ -31,3 +31,10 @@ declare type Business = {
   display_name: string;
   last_modified: Date;
 }
+
+declare type FeatureFlag = {
+  id: number;
+  name: string;
+  description: string | null;
+  enabled: boolean;
+}

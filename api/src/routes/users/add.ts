@@ -48,7 +48,26 @@ const route: Route = {
   middleware: [
     bodyValidator(body => typia.assert<Dto>(body)),
     handler
-  ]
+  ],
+  openapi: {
+    summary: 'Add a user to a business',
+    tags: ['users'],
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              email: { type: 'string', format: 'email' },
+              password: { type: 'string', minLength: 8, maxLength: 64 },
+              businessId: { type: 'number' },
+              role: { type: 'string', enum: ['superuser', 'user'] }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 export default route

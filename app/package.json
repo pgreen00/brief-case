@@ -10,34 +10,28 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^20.0.0-next.0",
-    "@angular/compiler": "^20.0.0-next.0",
-    "@angular/core": "^20.0.0-next.0",
-    "@angular/forms": "^20.0.0-next.0",
-    "@angular/platform-browser": "^20.0.0-next.0",
-    "@angular/router": "^20.0.0-next.0",
+    "@angular/common": "^20.0.0",
+    "@angular/compiler": "^20.0.0",
+    "@angular/core": "^20.0.0",
+    "@angular/forms": "^20.0.0",
+    "@angular/platform-browser": "^20.0.0",
+    "@angular/router": "^20.0.0",
     "@tauri-apps/api": "^2.5.0",
     "date-fns": "^4.1.0",
+    "dexie": "^4.0.11",
     "jebamo-angular": "~0.0.15",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular/build": "^20.0.0-rc.3",
-    "@angular/cli": "^20.0.0-rc.3",
-    "@angular/compiler-cli": "^20.0.0-next.0",
+    "@angular/build": "^20.0.0",
+    "@angular/cli": "^20.0.0",
+    "@angular/compiler-cli": "^20.0.0",
     "@tauri-apps/cli": "^2.5.0",
-    "jsdom": "^26.1.0",
+    "@vitest/browser": "^3.1.4",
+    "playwright": "^1.52.0",
     "typescript": "~5.8.0",
     "vitest": "^3.0.9"
-  },
-  "overrides": {
-    "jebamo-angular": {
-      "@angular/common": "$@angular/common",
-      "@angular/compiler": "$@angular/compiler",
-      "@angular/core": "$@angular/core",
-      "@angular/platform-browser": "$@angular/platform-browser"
-    }
   }
 }

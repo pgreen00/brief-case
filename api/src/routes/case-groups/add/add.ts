@@ -14,8 +14,15 @@ interface Dto {
 	parentId: number | null
 }
 
-async function handler(ctx: ParameterizedContext<{dto: Dto}>) {
-  ctx.body = await db.one<{id:number}>(sql(import.meta.url, `./insert-case-group.sql`), ctx.state.dto)
+async function handler(ctx: ParameterizedContext<{dto: Dto | Dto[]}>) {
+  if (Array.isArray(ctx.state.dto)) {
+    for (const dto of ctx.state.dto) {
+      await db.one<{id:number}>(sql(import.meta.url, `./insert-case-group.sql`), dto)
+    }
+    ctx.body = 'Bulk insert successful'
+  } else {
+    ctx.body = await db.one<{id:number}>(sql(import.meta.url, `./insert-case-group.sql`), ctx.state.dto)
+  }
 }
 
 const route: Route = {
@@ -23,9 +30,20 @@ const route: Route = {
   path: '/case_groups',
   middleware: [
     authorized('case_groups:write'),
-    bodyValidator(body => typia.assert<Dto>(body)),
+    bodyValidator(body => typia.assert<Dto | Dto[]>(body)),
     handler
-  ]
+  ],
+  openapi: {
+    summary: 'Add a case group',
+    tags: ['case_groups'],
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {}
+        }
+      }
+    }
+  }
 }
 
 export default route

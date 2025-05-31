@@ -52,21 +52,24 @@ async function createUser(tx: ITask<{}>, info: Dto['client'], businessId: number
     const [encryptedDob] = await encryptor.encrypt(dob, iv)
     const [encryptedGender] = gender ? await encryptor.encrypt(gender, iv) : [null]
     const [encryptedAltPhone] = altPhone ? await encryptor.encrypt(altPhone, iv) : [null]
-    const userId = await tx.one<{id:number}>(sql(import.meta.url, `./insert-client.sql`), {
-      encryptedEmail,
-      searchToken,
-      encryptedPhone,
-      encryptedAltContact,
-      encryptedAltContactPhone,
-      encryptedSsn,
-      encryptedFirstName,
-      encryptedLastName,
-      encryptedMiddleName,
-      encryptedDob,
-      encryptedGender,
-      encryptedAltPhone,
-      iv,
-      ciphertext
+    const userId = await tx.one<{id:number}>({
+      text: sql(import.meta.url, `./insert-client.sql`),
+      values: [
+        encryptedEmail,
+        searchToken,
+        ciphertext,
+        iv,
+        encryptedPhone,
+        encryptedAltPhone,
+        encryptedAltContact,
+        encryptedAltContactPhone,
+        encryptedFirstName,
+        encryptedLastName,
+        encryptedMiddleName,
+        encryptedDob,
+        encryptedSsn,
+        encryptedGender,
+      ]
     })
     const businessUser = await tx.one<{id: string}>({
       text: 'INSERT INTO business_users (user_id, business_id, user_role) VALUES ($1, $2, $3) RETURNING id',
@@ -101,7 +104,18 @@ const route: Route = {
     authorized('cases:write'),
     bodyValidator(body => typia.assert<Dto>(body)),
     handler
-  ]
+  ],
+  openapi: {
+    summary: 'Add a case',
+    tags: ['cases'],
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {}
+        }
+      }
+    }
+  }
 }
 
 export default route

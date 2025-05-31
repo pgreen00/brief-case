@@ -26,7 +26,11 @@
               "src/styles.css",
               "../node_modules/jebamo/styles/classes.css",
               "../node_modules/jebamo/styles/variables.css"
-            ]
+            ],
+            "define": {
+              "production": "false",
+              "server": "'http://localhost:27132'"
+            }
           },
           "configurations": {
             "production": {
@@ -51,19 +55,11 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "define": {
-                "production": "false",
-                "server": "'http://localhost:27132'"
-              }
+              "sourceMap": true
             },
             "test": {
               "optimization": false,
               "sourceMap": true,
-              "define": {
-                "production": "false",
-                "server": "'http://localhost:27132'"
-              },
               "polyfills": ["zone.js", "zone.js/testing"]
             }
           },
@@ -89,7 +85,8 @@
           "options": {
             "tsConfig": "tsconfig.spec.json",
             "buildTarget": "brief-case-app:build:test",
-            "runner": "vitest"
+            "runner": "vitest",
+            "browsers": ["webkit"]
           }
         }
       }

@@ -9,6 +9,7 @@ import { mapRoutes } from './routes/router.js';
 import { getSecret, isproduction } from './infrastructure/configuration.js';
 import { createServer } from 'http';
 import KeyGrip from 'keygrip';
+//import open from 'open';
 
 const app = new Koa();
 const router = await mapRoutes(import.meta.url, `./routes`);
@@ -43,4 +44,7 @@ const server = createServer(app.callback());
 const port = await getSecret('API_PORT') || 3000;
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+  if (!isproduction) {
+    //open(`http://localhost:${port}/docs`);
+  }
 });
