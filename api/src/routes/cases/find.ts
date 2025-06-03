@@ -60,8 +60,8 @@ const route: Route = {
   path: '/cases/:id',
   middleware: [
     authenticated,
-    handler,
-    lastModifiedCache
+    lastModifiedCache('cases'),
+    handler
   ],
   openapi: {
     summary: 'Find a case',

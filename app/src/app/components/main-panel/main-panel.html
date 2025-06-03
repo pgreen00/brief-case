@@ -9,12 +9,17 @@
         <je-icon-button (click)="openCaseWizard()" icon="add"/>
     </je-tooltip>
 </je-toolbar>
+
 <je-tree selection="single" (valueChange)="setGroup($event.detail)">
     @for (item of caseGroups.value(); track item.id) {
-        <je-branch [value]="item.id" [label]="item.title">
-            @for (child of item.children; track child.id) {
-                <je-branch [value]="child.id" [label]="child.title"/>
-            }
-        </je-branch>
+        <ng-container [ngTemplateOutlet]="branch" [ngTemplateOutletContext]="{ $implicit: item }"/>
     }
 </je-tree>
+
+<ng-template #branch let-item>
+    <je-branch [value]="item.id" [label]="item.title">
+        @for (child of item.children; track child.id) {
+            <ng-container [ngTemplateOutlet]="branch" [ngTemplateOutletContext]="{ $implicit: child }"/>
+        }
+    </je-branch>
+</ng-template>

@@ -1,0 +1,68 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  border-radius: var(--je-radius-lg);
+  border: 1px solid light-dark(var(--je-secondary-200), var(--je-secondary-800));
+  background-color: light-dark(var(--je-secondary-50), var(--je-secondary-950));
+  color: light-dark(var(--je-secondary-800), var(--je-secondary-200));
+}
+
+table {
+  width: 100%;
+  box-sizing: border-box;
+  border-collapse: collapse;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+thead,
+tbody {
+  box-sizing: border-box;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: light-dark(var(--je-secondary-100), color-mix(in srgb, var(--je-secondary) 15%, black));
+  color: light-dark(var(--je-secondary-900), var(--je-secondary-200));
+}
+
+th {
+  height: 2rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--je-secondary-200), var(--je-secondary-800));
+  border-top: 0;
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  &:first-child {
+    border-left: 0;
+  }
+}
+
+tbody ::ng-deep tr:last-child td {
+  border-bottom: 0;
+}
+
+::ng-deep td {
+  height: 2rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--je-secondary-200), var(--je-secondary-800));
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  &:first-child {
+    border-left: 0;
+  }
+}

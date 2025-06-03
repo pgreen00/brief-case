@@ -77,3 +77,9 @@ small {
   font-size: 0.75rem;
   font-weight: var(--je-font-light);
 }
+
+caption {
+  font-size: 0.875rem;
+  font-weight: var(--je-font-regular);
+  text-align: left;
+}

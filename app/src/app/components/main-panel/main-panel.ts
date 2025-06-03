@@ -4,10 +4,11 @@ import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
 import { Router } from '@angular/router';
 import { CURRENT_USER } from '../../tokens/current-user';
 import { CASE_GROUPS } from '../../tokens/case-groups';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'bc-main-panel',
-  imports: [JeTree, JeBranch, JeToolbar, JeIconButton, JeTooltip],
+  imports: [JeTree, JeBranch, JeToolbar, JeIconButton, JeTooltip, NgTemplateOutlet],
   templateUrl: './main-panel.html',
   styleUrl: './main-panel.css'
 })

@@ -13,19 +13,19 @@ const client = new SecretsManagerClient({
 export async function getSecret(name: string) {
   if (isproduction) {
     try {
-      const response = await client.send(new GetSecretValueCommand({
-        SecretId: name,
-      }));
+      const response = await client.send(new GetSecretValueCommand({ SecretId: name }));
       if ('SecretString' in response) {
         return response.SecretString;
       } else if (response.SecretBinary) {
         const buff = Buffer.from(response.SecretBinary.toString(), 'base64');
         return buff.toString('ascii'); //utf8 ?
+      } else {
+        throw new Error('Secret is not a string or binary');
       }
     } catch (err) {
       console.error(`Error fetching secret ${name} from AWS:`, err);
+      return undefined;
     }
-    return undefined;
   } else {
     return process.env[name];
   }

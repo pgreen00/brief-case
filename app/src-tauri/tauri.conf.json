@@ -2,9 +2,9 @@
   "$schema": "../../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Brief Case",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.briefcase.app",
   "build": {
-    "frontendDist": "../www",
+    "frontendDist": "../www/browser",
     "devUrl": "http://localhost:4200",
     "beforeDevCommand": "ng serve",
     "beforeBuildCommand": "ng build"

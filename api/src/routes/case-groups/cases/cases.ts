@@ -28,7 +28,7 @@ type QueryResult = {
 const queryFile = sql(import.meta.url, `./get-cases-by-group.sql`)
 
 const pool = Pool(
-  async () => await spawn<DecryptWorker>(new Worker('./decrypt.worker.js')),
+  () => spawn<DecryptWorker>(new Worker('./decrypt.worker.js')),
   { size: 4, maxQueuedJobs: 1000 }
 );
 
@@ -37,29 +37,29 @@ async function handler(ctx: ParameterizedContext<{user: Schema.BusinessUser}>) {
   const businessId = ctx.state.user.business_id
   const query = await db.many<QueryResult>(queryFile, [caseGroupId, businessId])
 
-  const decryptionPromises = query.map(async (q) => {
+  const decryptionPromises = query.map(async q => {
     const dek = await decryptDek(q.dek);
-    const userInfo = await pool.queue(async (worker) => {
-      return worker.decryptUserInfo({
-        email: q.email,
-        first_name: q.first_name,
-        last_name: q.last_name,
-        middle_name: q.middle_name,
-        phone: q.phone,
-        iv: q.iv
-      }, dek);
-    });
-
+    const unencrypted = {
+      email: q.email,
+      first_name: q.first_name,
+      last_name: q.last_name,
+      middle_name: q.middle_name,
+      phone: q.phone,
+      iv: q.iv
+    }
     return {
+      case_group: {
+        id: q.case_group_id,
+        title: q.case_group_title,
+        description: q.case_group_description
+      },
       id: q.id,
-      business_user_id: q.business_user_id,
-      case_group_id: q.case_group_id,
-      case_group_title: q.case_group_title,
-      case_group_description: q.case_group_description,
-      case_group_parent_id: q.case_group_parent_id,
-      tags: q.tags,
       code: q.code,
-      userInfo
+      tags: q.tags,
+      business_user: {
+        id: q.business_user_id,
+        ...await pool.queue(worker => worker.decryptUserInfo(unencrypted, dek))
+      }
     };
   });
 
@@ -68,14 +68,14 @@ async function handler(ctx: ParameterizedContext<{user: Schema.BusinessUser}>) {
 
 const route: Route = {
   method: 'get',
-  path: '/cases/by_group/:id',
+  path: '/case_groups/:id/cases',
   middleware: [
     authorized(),
     handler
   ],
   openapi: {
-    summary: 'Get cases by group',
-    tags: ['cases'],
+    summary: 'Get cases by case group',
+    tags: ['case_groups', 'cases'],
     responses: {
       200: { description: 'The cases' }
     },

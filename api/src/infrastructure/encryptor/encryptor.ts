@@ -11,7 +11,6 @@ export default class Encryptor {
       .then(async worker => {
         await worker.init(encryptionKey);
         this.worker$.next(worker);
-        console.log('Encryption worker spawned');
       })
       .catch(err => {
         this.worker$.next(null);
@@ -41,7 +40,6 @@ export default class Encryptor {
     try {
       const worker = await this.onReady();
       await Thread.terminate(worker);
-      console.log('Encryption worker terminated');
     } catch (error) {
       console.error('Error terminating encryption worker', error);
     }

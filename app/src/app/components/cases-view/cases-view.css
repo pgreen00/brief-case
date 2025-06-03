@@ -8,7 +8,38 @@ je-loading {
 }
 
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   position: relative;
   height: 100%;
+}
+
+bc-grid {
+  flex: 1;
+}
+
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: var(--je-radius-md);
+  height: 2rem;
+  padding: 0 0.5rem;
+  transition: background-color 0.2s ease-in-out;
+  &:hover {
+    background-color: light-dark(var(--je-secondary-100), var(--je-secondary-900));
+  }
+  &:active {
+    background-color: light-dark(var(--je-secondary-200), var(--je-secondary-800));
+  }
 }

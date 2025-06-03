@@ -1,10 +1,28 @@
 @if (cases.isLoading()) {
     <je-loading />
 } @else {
-    @for (item of cases.value(); track $index) {
-        <pre>{{item | json}}</pre>
-        @if (!$last) {
-            <je-divider />
+    <je-toolbar class="je-margin-bottom-sm">
+        <h4>Cases</h4>
+        <je-textfield size="sm" slot="end" placeholder="Search cases" />
+    </je-toolbar>
+    <bc-grid [columns]="['Code', 'Client', 'Email', 'Phone', 'Group']">
+        @for (case of cases.value() | slice:0:pagination(); track case.id) {
+            <tr>
+                <td>
+                    <je-tooltip content="Copy to clipboard">
+                        <button #button (click)="copyToClipboard(case.code, button)">{{case.code}}</button>
+                    </je-tooltip>
+                </td>
+                <td>{{case.business_user.first_name}} {{case.business_user.last_name}}</td>
+                <td>{{case.business_user.email}}</td>
+                <td>{{case.business_user.phone}}</td>
+                <td>
+                    <je-tooltip [content]="case.case_group.description">
+                        <span>{{case.case_group.title}}</span>
+                    </je-tooltip>
+                </td>
+            </tr>
         }
-    }
+        <div #bottom></div>
+    </bc-grid>
 }

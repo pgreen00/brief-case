@@ -6,6 +6,7 @@ import { OpenAPIObject, OperationObject } from 'openapi3-ts/oas31';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { koaSwagger } from 'koa2-swagger-ui';
+import { readFileSync } from 'fs';
 
 export type Route = {
   method: 'get' | 'post' | 'put' | 'delete' | 'patch';
@@ -43,5 +44,6 @@ export const mapRoutes = async (modulePath: string, directory: string) => {
   }
   router.get('/openapi.json', ctx => (ctx.body = spec));
   router.get('/docs', koaSwagger({ routePrefix: false, swaggerOptions: { spec: spec as any } }));
+  router.get('/favicon.png', ctx => (ctx.body = readFileSync(join(__dirname, 'favicon.png'))));
   return router;
 }
