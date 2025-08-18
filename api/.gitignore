@@ -1,4 +1,8 @@
 dist/
 .env
-seed-cases.js
-seed-cases.js.map
+*.user.toml
+*.artifact
+report.html
+report.json
+.cert
+seed.ts

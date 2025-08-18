@@ -1,12 +1,13 @@
 import { createClient } from 'redis';
 
 export class RedisClient implements Disposable {
-  public client = createClient({
-    url: 'redis://localhost:6379',
-    database: 1,
-  })
+  public client: ReturnType<typeof createClient>
 
   constructor() {
+    this.client = createClient({
+      url: 'redis://localhost:6379',
+      database: 1,
+    })
     this.client.connect()
   }
 

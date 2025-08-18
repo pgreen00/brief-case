@@ -1,14 +1,5 @@
 declare namespace Schema {
-  declare type Appointment = {
-    id: number;
-    scheduled_date: Date;
-    business_user_id: number;
-    last_modified: Date;
-    confirmed: boolean;
-    description: string | null;
-  }
-
-  declare type BusinessNote = {
+  declare type BusinessEvent = {
     id: number;
     title: string;
     description: string | null;
@@ -53,10 +44,12 @@ declare namespace Schema {
   }
 
   declare type Business = {
-    id: number,
-    business_name: string,
-    display_name: string,
+    id: number;
+    business_name: string;
+    display_name: string;
     last_modified: Date;
+    dek: Buffer;
+    dek_expiration: Date | null;
   }
 
   declare type CaseComment = {
@@ -117,22 +110,11 @@ declare namespace Schema {
     id: number;
     business_user_id: number;
     case_group_id: number;
-    intake: Buffer;
+    intake: string;
     tags: string[] | null
     code: string;
     last_modified: Date;
     modified_by_user_id: number | null;
-  }
-
-  declare type Message = {
-    id: number;
-    value: string; //encrypted
-    sent_at: Date;
-    sender_id: number;
-    read_messages: Record<string, any> | null;
-    recipient_id: number | null;
-    business_id: number | null;
-    last_modified: Date;
   }
 
   declare type Task = {
@@ -175,8 +157,6 @@ declare namespace Schema {
     alt_contact: string | null; //encrypted
     alt_contact_phone: string | null; //encrypted
     pw: string | null; //bcrypt
-    dek: Buffer | null;
-    iv: Buffer | null;
     registration_code: string | null;
     registration_code_expiration: Date | null;
     email_verification_code: string | null;
@@ -186,7 +166,6 @@ declare namespace Schema {
     locked_out_until: Date | null;
     settings: Record<string, string> | null;
     is_deleted: boolean;
-    dek_expiration: Date | null;
     last_modified: Date;
   }
 }

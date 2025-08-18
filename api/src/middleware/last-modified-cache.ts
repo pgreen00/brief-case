@@ -1,5 +1,5 @@
 import { Context, Middleware, Next } from 'koa'
-import { RedisClient } from '../infrastructure/redis.js'
+import { RedisClient } from '~/infrastructure/redis.js'
 
 function lastModifiedCache(entity: string): Middleware {
   return async (ctx: Context, next: Next) => {

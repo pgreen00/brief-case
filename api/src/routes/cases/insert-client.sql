@@ -1,8 +1,6 @@
 INSERT INTO users (
         email,
         search_token,
-        dek,
-        iv,
         phone,
         alt_phone,
         alt_contact,
@@ -26,8 +24,6 @@ VALUES (
         $9,
         $10,
         $11,
-        $12,
-        $13,
-        $14
+        $12
     )
 RETURNING id

@@ -11,13 +11,11 @@
     "noFallthroughCasesInSwitch": true,
     "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node16",
+    "moduleResolution": "nodenext",
     "importHelpers": true,
-    "lib": [
-      "es2024"
-    ],
+    "lib": ["ESNext"],
     "module": "nodenext",
-    "target": "es2024",
+    "target": "esnext",
     "useDefineForClassFields": false,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
@@ -25,14 +23,10 @@
     "rootDir": "./src",
     "resolveJsonModule": true,
     "noUnusedLocals": true,
-    "plugins": [
-      {
-        "transform": "typia/lib/transform"
-      }
-    ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }

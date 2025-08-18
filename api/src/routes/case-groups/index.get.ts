@@ -1,8 +1,7 @@
 import { ParameterizedContext } from 'koa';
-import authenticated from '../../../middleware/authenticated.js';
-import { Route } from '../../router.js';
-import db from '../../../infrastructure/database.js';
-import sql from '../../../infrastructure/sql.js';
+import authenticated from '~/middleware/authenticated.js';
+import db from '~/infrastructure/database.js';
+import sql from '~/infrastructure/sql.js';
 
 type CaseGroupWithDepth = Schema.CaseGroup & { depth: number, path: number[] }
 type CaseGroupWithChildren = Schema.CaseGroup & { children: CaseGroupWithChildren[] }
@@ -38,22 +37,10 @@ async function handler(ctx: ParameterizedContext) {
       sql(import.meta.url, './get-all-case-groups.sql')
     )
   )
+
 }
 
-const route: Route = {
-  method: 'get',
-  path: '/case_groups',
-  middleware: [
-    authenticated,
-    handler
-  ],
-  openapi: {
-    summary: 'Get all case groups',
-    tags: ['case_groups'],
-    responses: {
-      200: { description: 'The case groups' }
-    }
-  }
-}
-
-export default route
+export default [
+  authenticated,
+  handler
+]

@@ -12,8 +12,7 @@ SELECT c.id,
     c.case_group_id,
     c.tags,
     c.code,
-    u.dek,
-    u.iv,
+    b.dek,
     u.first_name,
     u.last_name,
     u.middle_name,
@@ -24,6 +23,7 @@ SELECT c.id,
     d.parent_id as case_group_parent_id
 FROM cases c
 JOIN business_users bu ON c.business_user_id = bu.id
+JOIN businesses b ON bu.business_id = b.id
 JOIN users u ON bu.user_id = u.id
 JOIN descendants d ON c.case_group_id = d.id
 WHERE case_group_id IN (

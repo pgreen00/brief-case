@@ -1,23 +1,20 @@
 import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
 import ratelimit from 'koa-ratelimit';
 import compress from 'koa-compress';
 import zlib from 'zlib';
-import logger from 'koa-logger';
 import cors from './middleware/cors.js';
-import { mapRoutes } from './routes/router.js';
-import { getSecret, isproduction } from './infrastructure/configuration.js';
-import { createServer } from 'http';
-import KeyGrip from 'keygrip';
-import open from 'open';
+import { getSecret } from './infrastructure/configuration.js';
+import { createSecureServer } from 'http2';
+import bodyParser from '@koa/bodyparser';
+import router from './router.js';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-const app = new Koa();
-const router = await mapRoutes(import.meta.url, `./routes`);
-app.keys = new KeyGrip([(await getSecret('COOKIE_KEY'))!], 'sha256');
-
-if (!isproduction) {
-  app.use(logger());
-}
+const cookieKey = await getSecret('COOKIE_KEY');
+const app = new Koa({
+  keys: [cookieKey!]
+});
 
 app
   .use(cors)
@@ -40,15 +37,14 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
-const server = createServer(app.callback());
-const port = await getSecret('API_PORT') || 3000;
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-//if someone types o then enter, open the swagger docs
-process.stdin.on('data', (data) => {
-  if (data.toString().trim() === 'o') {
-    open(`http://localhost:${port}/docs`);
-  }
+const server = createSecureServer({
+  key: readFileSync(join(__dirname, 'localhost.key.pem')),
+  cert: readFileSync(join(__dirname, 'localhost.crt.pem')),
+  passphrase: '032800'
+}, app.callback());
+server.listen(443, () => {
+  console.log(`Server running at https://localhost`);
 });

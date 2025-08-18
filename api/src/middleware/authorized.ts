@@ -1,5 +1,5 @@
 import { Middleware, Next, Context } from 'koa'
-import database from '../infrastructure/database.js'
+import database from '~/infrastructure/database.js'
 import { hoursToMilliseconds } from 'date-fns'
 
 function authorized(...rights: Schema.Right[]): Middleware {

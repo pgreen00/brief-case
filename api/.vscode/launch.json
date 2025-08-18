@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run and debug",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "tsx",
+      "args": [
+        "--env-file=${cwd}/api/.env",
+        "--watch",
+        "${cwd}/api/src/main.ts"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/node_modules/**",
+      ],
+    }
+  ]
+}

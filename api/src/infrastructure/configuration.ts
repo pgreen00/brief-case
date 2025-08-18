@@ -1,9 +1,6 @@
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
-import { config } from 'dotenv';
 
-config();
-
-export const isproduction = process.env['NODE_ENV'] === 'production';
+export const production = process.env['NODE_ENV'] === 'production';
 
 const client = new SecretsManagerClient({
   region: 'us-east-1',
@@ -11,7 +8,7 @@ const client = new SecretsManagerClient({
 });
 
 export async function getSecret(name: string) {
-  if (isproduction) {
+  if (production) {
     try {
       const response = await client.send(new GetSecretValueCommand({ SecretId: name }));
       if ('SecretString' in response) {
