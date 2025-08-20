@@ -8,8 +8,6 @@ import { createSecureServer } from 'http2';
 import bodyParser from '@koa/bodyparser';
 import router from './router.js';
 import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 
 const cookieKey = await getSecret('COOKIE_KEY');
 const app = new Koa({
@@ -37,14 +35,14 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+const keyPath = await getSecret('SSL_KEY')
+const certPath = await getSecret('SSL_CRT')
 const server = createSecureServer({
-  key: readFileSync(join(__dirname, 'localhost.key.pem')),
-  cert: readFileSync(join(__dirname, 'localhost.crt.pem')),
-  passphrase: '032800'
+  key: readFileSync(keyPath!),
+  cert: readFileSync(certPath!)
 }, app.callback());
-server.listen(443, () => {
-  console.log(`Server running at https://localhost`);
+
+const port = await getSecret('API_PORT') || 443
+server.listen(Number(port), () => {
+  console.log(`Server running on port ${port}`);
 });
