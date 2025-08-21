@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run and debug",
+      "name": "api dev",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "tsx",

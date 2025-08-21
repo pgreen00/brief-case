@@ -1,0 +1,21 @@
+services:
+  tmpfs-pg:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: brief_case
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5434:5432"
+    tmpfs:
+      - /var/lib/postgresql/data:rw,noexec,nosuid,size=1g
+    volumes:
+      - /dev/shm:/dev/shm
+      - ./dump-brief_case-202508210038.sql:/docker-entrypoint-initdb.d/dump-brief_case-202508210038.sql:ro
+    command: >
+      postgres
+      -c shared_buffers=256MB
+      -c max_connections=200
+      -c random_page_cost=1.0
+      -c effective_io_concurrency=1

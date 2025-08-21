@@ -26,21 +26,25 @@ function parsePath(path: string) {
   return path.split('/routes')[1].replace(new RegExp('/index\\.(get|post|put|delete|patch)\\.(js|ts)$'), '')
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+async function router() {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
 
-const router = new Router();
+  const router = new Router();
 
-const files = glob.sync(`${__dirname}/routes/**/index.{get,post,put,delete,patch}.{js,ts}`);
-for (const file of files) {
-  const method = parseMethod(file)
-  const path = parsePath(file)
-  const module = (await import(file)).default;
-  if (Array.isArray(module)) {
-    router[method](path, ...module);
-  } else {
-    router[method](path, module);
+  const files = glob.sync(`${__dirname}/routes/**/index.{get,post,put,delete,patch}.{js,ts}`);
+  for (const file of files) {
+    const method = parseMethod(file)
+    const path = parsePath(file)
+    const module = (await import(file)).default;
+    if (Array.isArray(module)) {
+      router[method](path, ...module);
+    } else {
+      router[method](path, module);
+    }
   }
+
+  return router
 }
 
-export default router;
+export default router

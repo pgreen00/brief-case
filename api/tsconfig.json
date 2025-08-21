@@ -20,7 +20,7 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "rootDir": "./src",
+    "rootDir": "./",
     "resolveJsonModule": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
@@ -28,5 +28,8 @@
       "~/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts"
+  ]
 }

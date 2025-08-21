@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "tsx --env-file=.env --watch src/main.ts",
-    "build": "tsc && copyfiles --all --up 1 --exclude \"./**/*.{ts,tsx}\" \"./src/**/*\" ./dist"
+    "build": "tsc && copyfiles --all --up 1 --exclude \"./**/*.{ts,tsx}\" \"./src/**/*\" ./dist",
+    "test": "npm run tmpfs-pg && DB_PORT=5434 DB_USER=postgres DB_PASSWORD=root tsx --test --env-file=.env",
+    "tmpfs-pg": "cd tmpfs-pg && docker compose up -d"
   },
   "dependencies": {
     "@aws-sdk/client-acm": "^3.637.0",
